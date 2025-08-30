@@ -1,0 +1,61 @@
+
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Username Validation Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    input[type="text"] {
+      padding: 8px;
+      font-size: 1em;
+      margin-bottom: 5px;
+      display: block;
+      width: 300px;
+    }
+    #errorMessage {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 5px;
+      min-height: 18px;
+    }
+  </style>
+</head>
+<body>
+  <form id="usernameForm" novalidate>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" placeholder="Enter username" required />
+    <div id="errorMessage"></div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const usernameInput = document.getElementById('username');
+    const errorDiv = document.getElementById('errorMessage');
+    const form = document.getElementById('usernameForm');
+    const usernameRegex = /^[a-zA-Z0-9_]{3,16}$/;
+
+    function validateUsername() {
+      const value = usernameInput.value;
+      if (!usernameRegex.test(value)) {
+        errorDiv.textContent = 'Username must be 3-16 characters long and contain only letters, numbers, and underscores.';
+        return false;
+      } else {
+        errorDiv.textContent = '';
+        return true;
+      }
+    }
+
+    usernameInput.addEventListener('input', validateUsername);
+
+    form.addEventListener('submit', function (event) {
+      if (!validateUsername()) {
+        event.preventDefault();
+        usernameInput.focus();
+      }
+    });
+  </script>
+</body>
+</html>

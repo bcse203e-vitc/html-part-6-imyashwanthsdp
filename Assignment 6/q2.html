@@ -1,0 +1,82 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Email Validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f4f4f4;
+    }
+    .container {
+      background: #fff;
+      padding: 25px;
+      border-radius: 8px;
+      width: 320px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+    input:focus {
+      border-color: #007bff;
+    }
+    .message {
+      font-size: 13px;
+      margin-top: 5px;
+      display: none;
+    }
+    .error {
+      color: red;
+    }
+    .success {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Email Validation</h2>
+    <form id="emailForm" novalidate>
+      <label for="email">Enter Email:</label>
+      <input type="text" id="email">
+      <div id="emailMsg" class="message"></div>
+    </form>
+  </div>
+
+  <script>
+    const emailField = document.getElementById("email");
+    const emailMsg = document.getElementById("emailMsg");
+    const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+    emailField.addEventListener("blur", function() {
+      const value = emailField.value.trim();
+      if (value === "") {
+        emailMsg.style.display = "block";
+        emailMsg.textContent = "Email is required";
+        emailMsg.className = "message error";
+      } else if (!emailRegex.test(value)) {
+        emailMsg.style.display = "block";
+        emailMsg.textContent = "Invalid email format";
+        emailMsg.className = "message error";
+      } else {
+        emailMsg.style.display = "block";
+        emailMsg.textContent = "Valid email ✔";
+        emailMsg.className = "message success";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Hobbies</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    .hobby-input {
+      display: block;
+      margin-bottom: 10px;
+    }
+    .hobby-input input {
+      padding: 5px;
+      width: 250px;
+      font-size: 1em;
+    }
+    .hobby-input .message {
+      font-size: 0.85em;
+      margin-top: 3px;
+      min-height: 18px;
+    }
+    .hobby-input input.error {
+      border: 2px solid #d32f2f;
+    }
+    .hobby-input input.success {
+      border: 2px solid #388e3c;
+    }
+  </style>
+</head>
+<body>
+  <form id="hobbiesForm">
+    <label>Hobbies:</label>
+    <div id="hobbiesContainer">
+      <div class="hobby-input">
+        <input type="text" name="hobby" placeholder="Enter a hobby" />
+        <div class="message"></div>
+      </div>
+    </div>
+    <button type="button" id="addHobbyBtn">Add Hobby</button>
+  </form>
+
+  <script>
+    const hobbiesContainer = document.getElementById('hobbiesContainer');
+    const addHobbyBtn = document.getElementById('addHobbyBtn');
+    const hobbyRegex = /^[A-Za-z\s]+$/;
+
+    
+    function validateHobbyInput(inputElem, messageElem) {
+      const value = inputElem.value;
+      if (value === '') {
+        messageElem.textContent = '';
+        inputElem.classList.remove('error', 'success');
+        return;
+      }
+      if (hobbyRegex.test(value)) {
+        messageElem.textContent = 'Valid hobby!';
+        messageElem.style.color = 'green';
+        inputElem.classList.add('success');
+        inputElem.classList.remove('error');
+      } else {
+        messageElem.textContent = 'Please enter alphabets only.';
+        messageElem.style.color = 'red';
+        inputElem.classList.add('error');
+        inputElem.classList.remove('success');
+      }
+    }
+
+    
+    hobbiesContainer.querySelectorAll('input').forEach(input => {
+      const messageDiv = input.nextElementSibling;
+      input.addEventListener('input', () => validateHobbyInput(input, messageDiv));
+    });
+
+    
+    function addHobbyField() {
+      const hobbyDiv = document.createElement('div');
+      hobbyDiv.className = 'hobby-input';
+      hobbyDiv.innerHTML = `
+        <input type="text" name="hobby" placeholder="Enter a hobby" />
+        <div class="message"></div>
+      `;
+      hobbiesContainer.appendChild(hobbyDiv);
+
+      const newInput = hobbyDiv.querySelector('input');
+      const newMessage = hobbyDiv.querySelector('.message');
+      newInput.addEventListener('input', () => validateHobbyInput(newInput, newMessage));
+    }
+
+    addHobbyBtn.addEventListener('click', addHobbyField);
+  </script>
+</body>
+</html>

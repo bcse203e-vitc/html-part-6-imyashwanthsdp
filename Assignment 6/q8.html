@@ -1,0 +1,62 @@
+
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Hex Color Code Validation with Live Preview</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    #colorInput {
+      padding: 8px;
+      font-size: 1em;
+      width: 150px;
+      margin-right: 10px;
+      text-transform: uppercase;
+    }
+    #colorPreview {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 1px solid #ccc;
+      vertical-align: middle;
+    }
+    #message {
+      font-size: 0.9em;
+      margin-top: 8px;
+      min-height: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <label for="colorInput">Hex Color Code:</label>
+  <input type="text" id="colorInput" placeholder="#FFF or #FFFFFF" maxlength="7" />
+  <div id="colorPreview"></div>
+  <div id="message"></div>
+
+  <script>
+    const colorInput = document.getElementById('colorInput');
+    const colorPreview = document.getElementById('colorPreview');
+    const message = document.getElementById('message');
+
+    const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+
+    colorInput.addEventListener('input', () => {
+      const value = colorInput.value.trim();
+
+      if (hexColorRegex.test(value)) {
+        colorPreview.style.backgroundColor = value;
+        message.textContent = 'Valid color code!';
+        message.style.color = 'green';
+      } else {
+        colorPreview.style.backgroundColor = 'transparent';
+        message.textContent = 'Invalid color code.';
+        message.style.color = 'red';
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Form Builder UI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    label, select, button {
+      font-size: 1em;
+      margin: 5px 0;
+    }
+    .input-wrapper {
+      margin-bottom: 15px;
+    }
+    .input-wrapper input {
+      padding: 6px;
+      font-size: 1em;
+      width: 300px;
+      display: block;
+      margin-top: 4px;
+    }
+    .message {
+      font-size: 0.85em;
+      margin-top: 3px;
+      min-height: 16px;
+      color: red;
+    }
+    .valid {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h2>Dynamic Form Builder</h2>
+
+  <label for="inputType">Select Input Type:</label>
+  <select id="inputType">
+    <option value="text">Text</option>
+    <option value="email">Email</option>
+    <option value="password">Password</option>
+  </select>
+  <button id="addInputBtn">Add</button>
+
+  <form id="dynamicForm">
+    <h3>Generated Inputs:</h3>
+  </form>
+
+  <script>
+    const inputTypeSelect = document.getElementById('inputType');
+    const addInputBtn = document.getElementById('addInputBtn');
+    const dynamicForm = document.getElementById('dynamicForm');
+
+    
+    const regexMap = {
+      text: /^[A-Za-z\s]+$/,        
+      email: /^[^@\s]+@[^@\s]+\.[^@\s]+$/, 
+      password: /^.{6,}$/,                  
+    };
+
+    function validateInput(input, type, messageElem) {
+      const pattern = regexMap[type];
+      if (pattern.test(input.value)) {
+        messageElem.textContent = 'Valid input';
+        messageElem.classList.add('valid');
+        messageElem.classList.remove('error');
+      } else {
+        messageElem.textContent = getErrorMessage(type);
+        messageElem.classList.add('error');
+        messageElem.classList.remove('valid');
+      }
+    }
+
+    function getErrorMessage(type) {
+      switch(type) {
+        case 'text':
+          return 'Only alphabets and spaces allowed';
+        case 'email':
+          return 'Invalid email format';
+        case 'password':
+          return 'Password must be at least 6 characters';
+        default:
+          return 'Invalid input';
+      }
+    }
+
+    addInputBtn.addEventListener('click', () => {
+      const selectedType = inputTypeSelect.value;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'input-wrapper';
+
+      const label = document.createElement('label');
+      label.textContent = `${selectedType.charAt(0).toUpperCase() + selectedType.slice(1)}:`;
+
+      const input = document.createElement('input');
+      input.type = selectedType === 'password' ? 'password' : 'text';
+      input.placeholder = `Enter ${selectedType}`;
+
+      const message = document.createElement('div');
+      message.className = 'message';
+
+      
+      input.addEventListener('input', () => {
+        validateInput(input, selectedType, message);
+      });
+
+      wrapper.appendChild(label);
+      wrapper.appendChild(input);
+      wrapper.appendChild(message);
+      dynamicForm.appendChild(wrapper);
+    });
+  </script>
+
+</body>
+</html>

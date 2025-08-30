@@ -1,0 +1,83 @@
+
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Country Dropdown</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    select {
+      padding: 8px;
+      font-size: 1em;
+      margin: 10px 0;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <form id="locationForm">
+    <label for="continent">Select Continent:</label><br />
+    <select id="continent" name="continent">
+      <option value="">-- Choose Continent --</option>
+      <option value="Africa">Africa</option>
+      <option value="Asia">Asia</option>
+      <option value="Europe">Europe</option>
+      <option value="North America">North America</option>
+      <option value="South America">South America</option>
+      <option value="Oceania">Oceania</option>
+      <option value="Antarctica">Antarctica</option>
+    </select>
+
+    <br />
+
+    <label for="country">Select Country:</label><br />
+    <select id="country" name="country" disabled>
+      <option value="">-- Choose Country --</option>
+    </select>
+  </form>
+
+  <script>
+    const continentCountryMap = {
+      "Africa": ["Nigeria", "Egypt", "South Africa", "Kenya", "Morocco"],
+      "Asia": ["China", "India", "Japan", "South Korea", "Indonesia"],
+      "Europe": ["Germany", "France", "United Kingdom", "Italy", "Spain"],
+      "North America": ["United States", "Canada", "Mexico", "Cuba", "Panama"],
+      "South America": ["Brazil", "Argentina", "Colombia", "Chile", "Peru"],
+      "Oceania": ["Australia", "New Zealand", "Fiji", "Papua New Guinea"],
+      "Antarctica": []
+    };
+
+    const continentSelect = document.getElementById('continent');
+    const countrySelect = document.getElementById('country');
+
+    continentSelect.addEventListener('change', function() {
+      const selectedContinent = this.value;
+      countrySelect.innerHTML = '';  
+
+      if (selectedContinent === "" || !continentCountryMap[selectedContinent]) {
+        countrySelect.disabled = true;
+        countrySelect.innerHTML = '<option value="">-- Choose Country --</option>';
+        return;
+      }
+
+      countrySelect.disabled = false;
+
+      
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = '-- Choose Country --';
+      countrySelect.appendChild(defaultOption);
+
+      
+      continentCountryMap[selectedContinent].forEach(country => {
+        const option = document.createElement('option');
+        option.value = country;
+        option.textContent = country;
+        countrySelect.appendChild(option);
+      });
+    });
+  </script>
+</body>
+</html>

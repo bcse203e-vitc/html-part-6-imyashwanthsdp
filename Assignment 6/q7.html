@@ -1,0 +1,41 @@
+
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>date format validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    input[type="text"] {
+      padding: 8px;
+      font-size: 1em;
+      margin-bottom: 5px;
+      display: block;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <form id="dateForm" novalidate>
+    <label for="date">Date (DD/MM/YYYY):</label>
+    <input type="text" id="date" name="date" placeholder="DD/MM/YYYY" required />
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const dateInput = document.getElementById('date');
+    const form = document.getElementById('dateForm');
+    const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+
+    form.addEventListener('submit', function(event) {
+      if (!dateRegex.test(dateInput.value)) {
+        alert('Please enter a valid date in DD/MM/YYYY format.');
+        dateInput.focus();
+        event.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
